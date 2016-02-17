@@ -1,6 +1,7 @@
 package com.myapplication;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     //helper functions
     private int getEventCount() {
@@ -48,8 +51,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //stuff for menu
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v(TAG, "Running onResume method");
+        displayListView();
+    }
 
+
+    //stuff for menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -73,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private static final String TAG = MainActivity.class.getSimpleName();
     private void showPrefs(){
         Log.v(TAG, "Running showPrefs method.");
     }
@@ -82,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private void addEvent() {
         Log.v(TAG, "Running addEvent method.");
+        Intent intent = new Intent(this, AddEventActivity.class);
+        startActivity(intent);
     }
 
 }

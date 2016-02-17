@@ -3,4 +3,6 @@
     <string name="mi_add_event">Add Event</string>
     <string name="mi_show_map">Show Map</string>
     <string name="mi_prefs">Preferences</string>
+    <string name="event_description_hint">Input Description Here</string>
+    <string name="event_address_hint">Enter Address Here</string>
 </resources>
