@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/mi_add_event"
+            android:title="@string/mi_add_event" />
+    <item
+            android:id="@+id/mi_show_map"
+            android:title="@string/mi_show_map" />
+    <item
+            android:id="@+id/mi_prefs"
+            android:title="@string/mi_prefs" />
+</menu>

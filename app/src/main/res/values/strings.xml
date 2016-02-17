@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Joes App</string>
+    <string name="mi_add_event">Add Event</string>
+    <string name="mi_show_map">Show Map</string>
+    <string name="mi_prefs">Preferences</string>
 </resources>
