@@ -41,19 +41,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        //lab -- monday
-
-//        // Retrieve items from server and get count
-//        int eventCount = getEventCount();
-//        // Build display string
-//        String displayText = "Number of events: " + eventCount;
-//        // Reference view element and set display text
-//        TextView textField = (TextView) findViewById(R.id.textView);
-//        textField.setText(displayText);
-
-
         displayListView();
 
     }
