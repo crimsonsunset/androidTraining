@@ -1,0 +1,19 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.garagze.event">
+
+    <application>
+
+        <provider
+            android:name=".database.GaragzeContentProvider"
+            android:authorities="com.garagesales.provider.salesevent"
+            android:enabled="true"
+            android:exported="true" >
+        </provider>
+
+        <provider
+            android:authorities="com.garagze.event.provider.SaleEventProvider"
+            android:name=".provider.SaleEventProvider"/>
+
+    </application>
+
+</manifest>
