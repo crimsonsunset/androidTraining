@@ -25,8 +25,11 @@ public class MainActivity extends AppCompatActivity {
             listData.add(event.getStreet());
         }
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_1, listData);
+//        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+//                this, android.R.layout.simple_list_item_1, listData);
+
+        final ArrayAdapter<SaleEvent> arrayAdapter =
+                new SaleEventArrayAdapter(this, R.layout.event_list_item, events);
 
         ListView listView = (ListView)findViewById(R.id.eventlistview);
         listView.setAdapter(arrayAdapter);
