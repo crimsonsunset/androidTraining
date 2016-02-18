@@ -4,6 +4,4 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
-    <!--<color name="colorPrimary">#C2185B</color>-->
-    <!--<color name="colorPrimaryDark">#881744</color>-->
 </resources>

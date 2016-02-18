@@ -1,69 +1,131 @@
 package com.myapplication;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import com.garagze.event.domain.SaleEvent;
 
 import java.util.List;
 
-public class SaleEventArrayAdapter extends ArrayAdapter<SaleEvent> {
-    public SaleEventArrayAdapter
-            (Context context, int resource, List<SaleEvent> events) {
-        super(context, resource, events);
+public class SaleEventArrayAdapter extends RecyclerView.Adapter<SaleEventArrayAdapter.ViewHolder>  {
+    private static final String TAG = SaleEventArrayAdapter.class.getSimpleName();
+    Context mContext;
+    List<SaleEvent> events;
+
+    public SaleEventArrayAdapter(Context context, List<SaleEvent> events) {
+        this.mContext = context;
+        this.events = events;
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        SaleEvent event = getItem(position);
-        ViewHolder viewHolder = null;
-        if (convertView == null) {
-            LayoutInflater vi = (LayoutInflater)
-                    getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = vi.inflate(R.layout.event_list_item, null);
-            viewHolder = new ViewHolder(convertView);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        viewHolder.address.setText(event.getStreet() + ", " + event.getCity());
-        viewHolder.rating.setRating(event.getRating());
-        viewHolder.distance.setText(Double.toString(event.getDistance()));
-
-//        TextView address =
-//                (TextView) convertView.findViewById(R.id.item_address);
-//        address.setText(event.getStreet() + ", " + event.getCity());
-//        RatingBar rating =
-//                (RatingBar) convertView.findViewById(R.id.item_rating);
-//        rating.setRating(event.getRating());
-//        TextView distance =
-//                (TextView) convertView.findViewById(R.id.item_distance);
-//        distance.setText(Double.toString(event.getDistance()));
-
-
-
-//        ViewHolder viewHolder = new ViewHolder(convertView);
-        convertView.setTag(viewHolder);
-        return convertView;
-    }
-
-    //used for caching data into views
-    static class ViewHolder {
-        ViewHolder(View view) {
-            address = (TextView) view.findViewById(R.id.item_address);
-            rating = (RatingBar) view.findViewById(R.id.item_rating);
-            distance = (TextView) view.findViewById(R.id.item_distance);
-        }
-
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView address;
         public RatingBar rating;
         public TextView distance;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            address = (TextView) itemView.findViewById(R.id.item_address);
+            rating = (RatingBar) itemView.findViewById(R.id.item_rating);
+            distance = (TextView) itemView.findViewById(R.id.item_distance);
+        }
+    }
+
+
+//    @Override
+//    public boolean onItemMove(int fromPosition, int toPosition) {
+//        if (fromPosition < toPosition) {
+//            for (int i = fromPosition; i < toPosition; i++) {
+//                Collections.swap(events, i, i + 1);
+//            }
+//        } else {
+//            for (int i = fromPosition; i > toPosition; i--) {
+//                Collections.swap(events, i, i - 1);
+//            }
+//        }
+//        notifyItemMoved(fromPosition, toPosition);
+//        return true;
+//    }
+
+
+    @Override
+    public int getItemCount() {
+        return events.size();
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout
+                .event_list_item, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        final SaleEvent event = events.get(position);
+        holder.address.setText(event.getStreet() + ", " + event.getCity());
+        holder.rating.setRating(event.getRating());
+        holder.distance.setText(Double.toString(event.getDistance()));
     }
 
 }
 
 
+//public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+//
+//    private final ItemTouchHelperAdapter mAdapter;
+//
+//    public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+//        mAdapter = adapter;
+//    }
+//
+//    @Override
+//    public boolean isLongPressDragEnabled() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isItemViewSwipeEnabled() {
+//        return false;
+//    }
+//
+//    @Override
+//    public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+//        final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+//        final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+//        return makeMovementFlags(dragFlags, swipeFlags);
+//    }
+//
+//    @Override
+//    public boolean onMove(RecyclerView recyclerView,
+//                          RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
+//        mAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
+//        return true;
+//    }
+//
+//    @Override
+//    public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
+//        mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+//    }
+//
+//    @Override
+//    public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+//        if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+//            ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
+//            itemViewHolder.onItemSelected();
+//        }
+//
+//        super.onSelectedChanged(viewHolder, actionState);
+//    }
+//
+//    @Override
+//    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+//        super.clearView(recyclerView, viewHolder);
+//
+//        ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
+//        itemViewHolder.onItemClear();
+//    }
+//}
