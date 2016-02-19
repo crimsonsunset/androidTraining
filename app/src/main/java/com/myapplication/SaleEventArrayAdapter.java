@@ -2,6 +2,7 @@ package com.myapplication;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import com.garagze.event.domain.SaleEvent;
 
+import java.util.Collections;
 import java.util.List;
 
 public class SaleEventArrayAdapter extends RecyclerView.Adapter<SaleEventArrayAdapter.ViewHolder>  {
@@ -34,26 +36,13 @@ public class SaleEventArrayAdapter extends RecyclerView.Adapter<SaleEventArrayAd
         }
     }
 
-
-//    @Override
-//    public boolean onItemMove(int fromPosition, int toPosition) {
-//        if (fromPosition < toPosition) {
-//            for (int i = fromPosition; i < toPosition; i++) {
-//                Collections.swap(events, i, i + 1);
-//            }
-//        } else {
-//            for (int i = fromPosition; i > toPosition; i--) {
-//                Collections.swap(events, i, i - 1);
-//            }
-//        }
-//        notifyItemMoved(fromPosition, toPosition);
-//        return true;
-//    }
-
-
     @Override
     public int getItemCount() {
         return events.size();
+    }
+
+    public void remove(int remInd) {
+        events.remove(remInd);
     }
 
     @Override
@@ -69,6 +58,15 @@ public class SaleEventArrayAdapter extends RecyclerView.Adapter<SaleEventArrayAd
         holder.address.setText(event.getStreet() + ", " + event.getCity());
         holder.rating.setRating(event.getRating());
         holder.distance.setText(Double.toString(event.getDistance()));
+    }
+
+    public void swap(int firstPosition, int secondPosition){
+        String logMsg = "BEFORE SWAPED method. : " + events;
+        Log.v(TAG, logMsg);
+        Collections.swap(events, firstPosition, secondPosition);
+        logMsg = "After SWAPED method. : " + events;
+        Log.v(TAG, logMsg);
+        notifyItemMoved(firstPosition, secondPosition);
     }
 
 }

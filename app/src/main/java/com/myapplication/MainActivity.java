@@ -4,6 +4,7 @@ package com.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -28,22 +29,32 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
-        mStaggeredLayoutManager = new StaggeredGridLayoutManager(1,
-                StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(mStaggeredLayoutManager);
+//        mStaggeredLayoutManager = new StaggeredGridLayoutManager(1,
+//                StaggeredGridLayoutManager.VERTICAL);
+//        mRecyclerView.setLayoutManager(mStaggeredLayoutManager);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
 
         events = SaleEventManager.getAllEvents(this);
         mAdapter = new SaleEventArrayAdapter(this, events);
         mRecyclerView.setAdapter(mAdapter);
         mActivity = this;
 
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback((ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT),(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT)) {
 
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
+                String logMsg = TAG + "Running MOVEEEE method. : ";
+                Log.v(TAG, logMsg);
+                mAdapter.swap(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                return true;
             }
+
+
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
@@ -59,14 +70,15 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+
+        // Setup ItemTouchHelper
+//        ItemTouchHelper.Callback callback = new SalesTouchHelper(mAdapter,events);
+//        ItemTouchHelper helper = new ItemTouchHelper(callback);
+//        helper.attachToRecyclerView(mRecyclerView);
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-//        public void removeAt(int position) {
-//        events.remove(position);
-//            notifyItemRemoved(position);
-//            notifyItemRangeChanged(position, events.size());
-//        }
 
     }
 
