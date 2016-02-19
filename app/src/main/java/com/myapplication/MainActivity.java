@@ -2,7 +2,9 @@ package com.myapplication;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,8 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.garagze.event.domain.SaleEvent;
 import com.garagze.event.service.SaleEventManager;
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         mActivity = this;
 
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback((ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT),(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT)) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback((ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT), (ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT)) {
 
 
             @Override
@@ -53,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 mAdapter.swap(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 return true;
             }
-
 
 
             @Override
@@ -78,6 +81,20 @@ public class MainActivity extends AppCompatActivity {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+
+        SharedPreferences prefs =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        String defaultValue="";
+        String userName = prefs.getString("PREF_USERNAME", defaultValue).trim();
+        String cheese = prefs.getString("PREF_FAV", defaultValue).trim();
+        TextView userNameView = (TextView) findViewById(R.id.userName);
+        if (userName.equals("")) {
+            userNameView.setVisibility(View.INVISIBLE);
+        } else {
+            userNameView.setVisibility(View.VISIBLE);
+            userNameView.setText("Current User: "+userName + " really loves " + cheese);
+        }
 
 
     }
@@ -124,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void showPrefs() {
         Log.v(TAG, "Running showPrefs method.");
+        Intent intent = new Intent(this, Preferences.class);
+        startActivity(intent);
     }
 
     private void showMap() {

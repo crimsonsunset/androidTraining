@@ -2,7 +2,11 @@
 <PreferenceScreen
         xmlns:android="http://schemas.android.com/apk/res/android" >
     <EditTextPreference
-            android:key="@string/PREF_USERNAME"
+            android:key="PREF_USERNAME"
             android:summary="Enter your user name"
             android:title="Username" />
+    <EditTextPreference
+            android:key="PREF_FAV"
+            android:summary="Enter your Favorite Cheese"
+            android:title="favCheese" />
 </PreferenceScreen>
